@@ -1,0 +1,2 @@
+﻿interface ITest<T>
+    where T : class, new()

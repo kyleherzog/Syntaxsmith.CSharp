@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Syntaxsmith.CSharp", "Syntaxsmith.CSharp\Syntaxsmith.CSharp.csproj", "{42D78EA6-3260-4C7C-8D91-9DD4EE60CBDF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{33453AC5-2AB6-494F-860A-0669A43FDCE1}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		CHANGELOG.md = CHANGELOG.md
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Syntaxsmith.CSharp.UnitTests", "Syntaxsmith.CSharp.UnitTests\Syntaxsmith.CSharp.UnitTests.csproj", "{9B2A5EC4-FF70-46FD-A4FC-C97B3E6010C7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{42D78EA6-3260-4C7C-8D91-9DD4EE60CBDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42D78EA6-3260-4C7C-8D91-9DD4EE60CBDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42D78EA6-3260-4C7C-8D91-9DD4EE60CBDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42D78EA6-3260-4C7C-8D91-9DD4EE60CBDF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B2A5EC4-FF70-46FD-A4FC-C97B3E6010C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B2A5EC4-FF70-46FD-A4FC-C97B3E6010C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B2A5EC4-FF70-46FD-A4FC-C97B3E6010C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B2A5EC4-FF70-46FD-A4FC-C97B3E6010C7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1B16CDF1-40EA-403B-8E5B-5305927759B6}
+	EndGlobalSection
+EndGlobal

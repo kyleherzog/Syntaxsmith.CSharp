@@ -1,0 +1,2 @@
+﻿class Test<T>
+    where T : class

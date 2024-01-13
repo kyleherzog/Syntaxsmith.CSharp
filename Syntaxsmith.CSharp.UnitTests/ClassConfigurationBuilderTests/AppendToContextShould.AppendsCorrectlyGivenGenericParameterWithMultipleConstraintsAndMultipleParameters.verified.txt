@@ -1,0 +1,3 @@
+﻿class Test<T, U>
+    where T : class, new()
+    where U : struct
