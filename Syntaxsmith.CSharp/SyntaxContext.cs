@@ -26,6 +26,11 @@ public class SyntaxContext
     public string IndentValue { get; }
 
     /// <summary>
+    /// Gets a value indicating whether the context has any content.
+    /// </summary>
+    public bool HasContent => builder.Length > 0;
+
+    /// <summary>
     /// Gets or a sets a name for the last operation performed on the context. This gets reset upon each addition of text.
     /// </summary>
     public string LastOperationName { get; set; } = string.Empty;

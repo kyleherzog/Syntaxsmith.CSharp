@@ -1,4 +1,6 @@
-﻿namespace Syntaxsmith.CSharp;
+﻿using Syntaxsmith.CSharp.Enums;
+
+namespace Syntaxsmith.CSharp;
 
 public abstract class CSharpCodeBuilder<T> : SyntaxBuilder<CSharpCodeBuilder<T>> where T : CSharpCodeBuilder<T>
 {
@@ -27,4 +29,31 @@ public abstract class CSharpCodeBuilder<T> : SyntaxBuilder<CSharpCodeBuilder<T>>
         Context.IndentLevel++;
         return (T)this;
     }
+
+    public T AddDirective(PreprocessorDirective dirctive, string? text = null)
+    {
+        // start a new line if there is content
+        if (Context.HasContent)
+        {
+            Context.IsPendingLineClose = true;
+        }
+
+        Context.Add("#");
+        Context.Add(dirctive.DirectiveText());
+        if (!string.IsNullOrWhiteSpace(text))
+        {
+            Context.Add(" ");
+            Context.Add(text);
+        }
+
+        Context.LineClose();
+        return (T)this;
+    }
+
+    public T AddCommentLine(string comment)
+    {
+        Context.AddLine($"// {comment}");
+        return (T)this;
+    }
+
 }
