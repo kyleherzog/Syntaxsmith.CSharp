@@ -1,6 +1,6 @@
 ﻿namespace Syntaxsmith.CSharp;
 
-public abstract class NamespaceBuilder<T> : CSharpCodeBuilder<NamespaceBuilder<T>> where T : NamespaceBuilder<T>
+public abstract class NamespaceBuilder<T> : CSharpCodeBuilder<T> where T : NamespaceBuilder<T>
 {
     protected NamespaceBuilder(string typeName, SyntaxContext? context = null)
         : base(context)
@@ -31,7 +31,6 @@ public abstract class NamespaceBuilder<T> : CSharpCodeBuilder<NamespaceBuilder<T
 
     public T Close()
     {
-        BlockClose();
-        return (T)this;
+        return BlockClose();
     }
 }
