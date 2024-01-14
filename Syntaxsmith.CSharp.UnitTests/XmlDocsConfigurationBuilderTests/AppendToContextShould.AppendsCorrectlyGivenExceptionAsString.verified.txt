@@ -1,0 +1,6 @@
+﻿/// <summary>
+/// This does that.
+/// </summary>
+/// <exception cref="ArgumentException">
+/// Thrown when there is a bad value.
+/// </exception>

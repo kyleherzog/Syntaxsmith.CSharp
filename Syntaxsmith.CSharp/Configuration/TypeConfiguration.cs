@@ -2,10 +2,11 @@
 using System.Text.RegularExpressions;
 using Syntaxsmith.CSharp.Enums;
 using Syntaxsmith.CSharp.Extensions;
+using Syntaxsmith.CSharp.Interfaces;
 
 namespace Syntaxsmith.CSharp.Configuration;
 
-internal class TypeConfiguration
+internal class TypeConfiguration : IConfigurationFormatter
 {
     private const string validationPattern = @"^(?:[A-Z][a-zA-Z0-9]*)(?:<[A-Z][a-zA-Z0-9]*>)?$";
 

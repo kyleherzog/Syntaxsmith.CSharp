@@ -1,0 +1,6 @@
+﻿/// <summary>
+/// This does that.
+/// </summary>
+/// <param name="value">
+/// The value to be applied.
+/// </param>

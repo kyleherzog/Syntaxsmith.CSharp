@@ -1,0 +1,6 @@
+﻿/// <summary>
+/// This does that.
+/// </summary>
+/// <exception cref="InvalidOperationException">
+/// Thrown when the object has not been initialized.
+/// </exception>

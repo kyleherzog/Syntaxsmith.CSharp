@@ -1,0 +1,6 @@
+﻿/// <summary>
+/// This does that.
+/// </summary>
+/// <exception cref="ArgumentOutOfRangeException">
+/// Thrown when the value is too big.
+/// </exception>

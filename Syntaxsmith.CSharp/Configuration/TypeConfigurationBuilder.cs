@@ -1,8 +1,9 @@
 ﻿using Syntaxsmith.CSharp.Enums;
+using Syntaxsmith.CSharp.Interfaces;
 
 namespace Syntaxsmith.CSharp.Configuration;
 
-public abstract class TypeConfigurationBuilder<T> where T : TypeConfigurationBuilder<T>
+public abstract class TypeConfigurationBuilder<T> : ConfigurationBuilderBase where T : TypeConfigurationBuilder<T>
 {
     protected TypeConfigurationBuilder(string typeName, string typeKeyword)
     {
@@ -16,20 +17,9 @@ public abstract class TypeConfigurationBuilder<T> where T : TypeConfigurationBui
 
     internal TypeConfiguration Configuration { get; }
 
-    public void AppendToContext(SyntaxContext context)
-    {
-        if (context is null)
-        {
-            throw new ArgumentNullException(nameof(context));
-        }
+    internal override bool ShouldIndentLines => true;
 
-        var lines = Configuration.ToLines();
-        context.AddLine(lines[0]);
-        for (var i = 1; i < lines.Count; i++)
-        {
-            context.AddChildLine(lines[i]);
-        }
-    }
+    internal override IConfigurationFormatter ConfigurationFormatter => Configuration;
 
     public T Public()
     {
