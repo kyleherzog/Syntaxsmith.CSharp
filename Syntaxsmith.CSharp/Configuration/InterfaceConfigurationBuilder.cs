@@ -7,6 +7,7 @@ public class InterfaceConfigurationBuilder : TypeConfigurationBuilder<InterfaceC
     public InterfaceConfigurationBuilder(string interfaceName)
         : base(interfaceName, "interface")
     {
+        GlobalConfiguration.Interface?.Invoke(this);
     }
 
     public InterfaceConfigurationBuilder Inherits(params string[] interfaces)

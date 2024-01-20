@@ -7,6 +7,7 @@ public class EnumConfigurationBuilder : TypeConfigurationBuilder<EnumConfigurati
     public EnumConfigurationBuilder(string enumName)
         : base(enumName, "enum")
     {
+        GlobalConfiguration.Enum?.Invoke(this);
     }
 
     public EnumConfigurationBuilder UnderlyingType<T>()

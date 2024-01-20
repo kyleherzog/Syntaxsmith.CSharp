@@ -7,6 +7,7 @@ public class ClassConfigurationBuilder : TypeConfigurationBuilder<ClassConfigura
     public ClassConfigurationBuilder(string className)
         : base(className, "class")
     {
+        GlobalConfiguration.Class?.Invoke(this);
     }
 
     public ClassConfigurationBuilder Abstract(bool isOn = true)

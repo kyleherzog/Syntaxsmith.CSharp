@@ -38,23 +38,13 @@ public class AppendToContextShould : VerifyBase
     }
 
     [TestMethod]
-    public void AppendCorrectlyGivenInheritsByString()
+    public void AppendCorrectlyGivenGlobalConfiguration()
     {
+        GlobalConfiguration.Interface = o => o.Public();
         var builder = new InterfaceConfigurationBuilder("ITest");
         var context = new SyntaxContext();
-        builder.Inherits("ITestBase")
-            .AppendToContext(context);
-        Assert.AreEqual("interface ITest : ITestBase", context.ToString());
-    }
-
-    [TestMethod]
-    public void AppendCorrectlyGivenMultipleInheritsByString()
-    {
-        var builder = new InterfaceConfigurationBuilder("ITest");
-        var context = new SyntaxContext();
-        builder.Inherits("ITestBase", "IDisposable")
-            .AppendToContext(context);
-        Assert.AreEqual("interface ITest : ITestBase, IDisposable", context.ToString());
+        builder.AppendToContext(context);
+        Assert.AreEqual("public interface ITest", context.ToString());
     }
 
     [TestMethod]
@@ -68,6 +58,16 @@ public class AppendToContextShould : VerifyBase
     }
 
     [TestMethod]
+    public void AppendCorrectlyGivenInheritsByString()
+    {
+        var builder = new InterfaceConfigurationBuilder("ITest");
+        var context = new SyntaxContext();
+        builder.Inherits("ITestBase")
+            .AppendToContext(context);
+        Assert.AreEqual("interface ITest : ITestBase", context.ToString());
+    }
+
+    [TestMethod]
     public void AppendCorrectlyGivenInheritsByType()
     {
         var builder = new InterfaceConfigurationBuilder("ITest");
@@ -75,6 +75,16 @@ public class AppendToContextShould : VerifyBase
         builder.Inherits(typeof(ITestPerson))
             .AppendToContext(context);
         Assert.AreEqual("interface ITest : ITestPerson", context.ToString());
+    }
+
+    [TestMethod]
+    public void AppendCorrectlyGivenMultipleInheritsByString()
+    {
+        var builder = new InterfaceConfigurationBuilder("ITest");
+        var context = new SyntaxContext();
+        builder.Inherits("ITestBase", "IDisposable")
+            .AppendToContext(context);
+        Assert.AreEqual("interface ITest : ITestBase, IDisposable", context.ToString());
     }
 
     [TestMethod]
@@ -135,6 +145,12 @@ public class AppendToContextShould : VerifyBase
             .WithGenericParameter("U")
             .AppendToContext(context);
         Assert.AreEqual("interface ITest<T, U>", context.ToString());
+    }
+
+    [TestInitialize]
+    public void TestInitialize()
+    {
+        GlobalConfiguration.Reset();
     }
 
     [TestMethod]

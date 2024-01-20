@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
-using System.Text;
-
-namespace Syntaxsmith.CSharp;
+﻿namespace Syntaxsmith.CSharp;
 
 public enum PreprocessorDirective
 {
@@ -25,4 +20,5 @@ public enum PreprocessorDirective
     Error,
     Warning,
     Line,
+    Define,
 }

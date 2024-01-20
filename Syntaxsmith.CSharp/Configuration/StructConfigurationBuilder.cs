@@ -7,6 +7,7 @@ public class StructConfigurationBuilder : TypeConfigurationBuilder<StructConfigu
     public StructConfigurationBuilder(string structName)
         : base(structName, "struct")
     {
+        GlobalConfiguration.Struct?.Invoke(this);
     }
 
     public StructConfigurationBuilder Abstract(bool isOn = true)

@@ -77,6 +77,16 @@ public class AppendToContextShould : VerifyBase
     }
 
     [TestMethod]
+    public void AppendCorrectlyGivenGlobalConfiguration()
+    {
+        GlobalConfiguration.Struct = o => o.Public();
+        var builder = new StructConfigurationBuilder("Test");
+        var context = new SyntaxContext();
+        builder.AppendToContext(context);
+        Assert.AreEqual("public struct Test", context.ToString());
+    }
+
+    [TestMethod]
     public void AppendCorrectlyGivenInheritsAndInterface()
     {
         var builder = new StructConfigurationBuilder("Test");
@@ -206,6 +216,12 @@ public class AppendToContextShould : VerifyBase
         builder.Unsafe()
             .AppendToContext(context);
         Assert.AreEqual("unsafe struct Test", context.ToString());
+    }
+
+    [TestInitialize]
+    public void TestInitialize()
+    {
+        GlobalConfiguration.Reset();
     }
 
     [TestMethod]

@@ -6,6 +6,16 @@ namespace Syntaxsmith.CSharp.UnitTests.EnumConfigurationBuilderTests;
 public class AppendToContextShould : VerifyBase
 {
     [TestMethod]
+    public void AppendCorrectlyGivenGlobalConfig()
+    {
+        GlobalConfiguration.Enum = o => o.Public();
+        var builder = new EnumConfigurationBuilder("Test");
+        var context = new SyntaxContext();
+        builder.AppendToContext(context);
+        Assert.AreEqual("public enum Test", context.ToString());
+    }
+
+    [TestMethod]
     public void AppendCorrectlyGivenOnlyName()
     {
         var builder = new EnumConfigurationBuilder("Test");
@@ -52,6 +62,12 @@ public class AppendToContextShould : VerifyBase
         builder.UnderlyingType(typeof(Int64))
             .AppendToContext(context);
         Assert.AreEqual("enum Test : Int64", context.ToString());
+    }
+
+    [TestInitialize]
+    public void TestInitialize()
+    {
+        GlobalConfiguration.Reset();
     }
 
     [TestMethod]
