@@ -27,11 +27,11 @@ public class AddDirectiveShould : VerifyBase
     public Task AddWithoutIndentingGivenOpenBlock()
     {
         var builder = new CSharpCodeBuilder();
-        var result = builder.BlockOpen()
-            .BlockOpen()
+        var result = builder.OpenBlock()
+            .OpenBlock()
             .AddDirective(PreprocessorDirective.If, "true")
-            .BlockClose()
-            .BlockClose()
+            .CloseBlock()
+            .CloseBlock()
             .Build();
         return Verify(result);
     }

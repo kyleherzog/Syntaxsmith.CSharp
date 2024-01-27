@@ -1,4 +1,5 @@
 ﻿using Syntaxsmith.CSharp.Enums;
+using Syntaxsmith.CSharp.Extensions;
 
 namespace Syntaxsmith.CSharp.Configuration;
 
@@ -12,7 +13,7 @@ public class StructConfigurationBuilder : TypeConfigurationBuilder<StructConfigu
 
     public StructConfigurationBuilder Abstract(bool isOn = true)
     {
-        Configuration.ToggleModifier(TypeModifiers.Abstract, isOn);
+        Configuration.ToggleModifier(KeywordModifiers.Abstract, isOn);
         return this;
     }
 
@@ -24,12 +25,12 @@ public class StructConfigurationBuilder : TypeConfigurationBuilder<StructConfigu
 
     public StructConfigurationBuilder Implements<T>()
     {
-        return Implements(typeof(T).Name);
+        return Implements(typeof(T).FriendlyName());
     }
 
     public StructConfigurationBuilder Implements(params Type[] interfaces)
     {
-        return Implements(interfaces.Select(x => x.Name).ToArray());
+        return Implements(interfaces.Select(x => x.FriendlyName()).ToArray());
     }
 
     public StructConfigurationBuilder Inherits(string baseClass)
@@ -50,12 +51,12 @@ public class StructConfigurationBuilder : TypeConfigurationBuilder<StructConfigu
             throw new ArgumentNullException(nameof(baseType));
         }
 
-        return Inherits(baseType.Name);
+        return Inherits(baseType.FriendlyName());
     }
 
     public StructConfigurationBuilder Partial(bool isOn = true)
     {
-        Configuration.ToggleModifier(TypeModifiers.Partial, isOn);
+        Configuration.ToggleModifier(KeywordModifiers.Partial, isOn);
         return this;
     }
 
@@ -79,19 +80,19 @@ public class StructConfigurationBuilder : TypeConfigurationBuilder<StructConfigu
 
     public StructConfigurationBuilder Sealed(bool isOn = true)
     {
-        Configuration.ToggleModifier(TypeModifiers.Sealed, isOn);
+        Configuration.ToggleModifier(KeywordModifiers.Sealed, isOn);
         return this;
     }
 
     public StructConfigurationBuilder Static(bool isOn = true)
     {
-        Configuration.ToggleModifier(TypeModifiers.Static, isOn);
+        Configuration.ToggleModifier(KeywordModifiers.Static, isOn);
         return this;
     }
 
     public StructConfigurationBuilder Unsafe(bool isOn = true)
     {
-        Configuration.ToggleModifier(TypeModifiers.Unsafe, isOn);
+        Configuration.ToggleModifier(KeywordModifiers.Unsafe, isOn);
         return this;
     }
 

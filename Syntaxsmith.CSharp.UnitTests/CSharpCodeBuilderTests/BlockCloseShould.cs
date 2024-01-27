@@ -7,7 +7,7 @@ public class BlockCloseShould
     public void AddBraceGivenOnlyOne()
     {
         var builder = new CSharpCodeBuilder();
-        builder.BlockClose();
+        builder.CloseBlock();
         Assert.AreEqual("}", builder.ToString());
     }
 
@@ -15,7 +15,7 @@ public class BlockCloseShould
     public void AddsExtraLineGivenNextLineNotAnotherBlockClose()
     {
         var builder = new CSharpCodeBuilder();
-        builder.BlockClose();
+        builder.CloseBlock();
         builder.AddLine("public class Test");
         var expected = """
             }
@@ -30,10 +30,10 @@ public class BlockCloseShould
     public void DoesNotAddExtraLineGivenNextLineIsAnotherBlockClose()
     {
         var builder = new CSharpCodeBuilder();
-        builder.BlockOpen();
-        builder.BlockOpen();
-        builder.BlockClose();
-        builder.BlockClose();
+        builder.OpenBlock();
+        builder.OpenBlock();
+        builder.CloseBlock();
+        builder.CloseBlock();
         var expected = """
             {
                 {
@@ -48,7 +48,7 @@ public class BlockCloseShould
     public void NotReduceIndentLevelGivenAtZero()
     {
         var builder = new CSharpCodeBuilder();
-        builder.BlockClose();
+        builder.CloseBlock();
         Assert.AreEqual(0, builder.Context.IndentLevel);
     }
 
@@ -57,7 +57,7 @@ public class BlockCloseShould
     {
         var builder = new CSharpCodeBuilder();
         builder.Context.IndentLevel++;
-        builder.BlockClose();
+        builder.CloseBlock();
         Assert.AreEqual(0, builder.Context.IndentLevel);
     }
 }

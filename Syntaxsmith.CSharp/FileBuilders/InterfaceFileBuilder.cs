@@ -11,6 +11,6 @@ public class InterfaceFileBuilder : CSharpFileBuilder<InterfaceFileBuilder>
 
     public InterfaceFileBuilder Open(Action<InterfaceConfigurationBuilder>? configAction = null)
     {
-        return InterfaceOpen(TypeName, configAction);
+        return OpenInterface(TypeName, configAction);
     }
 }

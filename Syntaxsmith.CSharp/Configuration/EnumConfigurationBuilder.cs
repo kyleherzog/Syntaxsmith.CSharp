@@ -1,4 +1,5 @@
 ﻿using Syntaxsmith.CSharp.Enums;
+using Syntaxsmith.CSharp.Extensions;
 
 namespace Syntaxsmith.CSharp.Configuration;
 
@@ -17,7 +18,7 @@ public class EnumConfigurationBuilder : TypeConfigurationBuilder<EnumConfigurati
 
     public EnumConfigurationBuilder UnderlyingType(Type underlyingType)
     {
-        return UnderlyingType(underlyingType.Name);
+        return UnderlyingType(underlyingType.FriendlyName());
     }
 
     public EnumConfigurationBuilder UnderlyingType(string underlyingType)

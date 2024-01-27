@@ -11,6 +11,6 @@ public class EnumFileBuilder : CSharpFileBuilder<EnumFileBuilder>
 
     public EnumFileBuilder Open(Action<EnumConfigurationBuilder>? configAction = null)
     {
-        return EnumOpen(TypeName, configAction);
+        return OpenEnum(TypeName, configAction);
     }
 }

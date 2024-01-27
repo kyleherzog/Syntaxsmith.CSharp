@@ -17,9 +17,13 @@ public abstract class TypeConfigurationBuilder<T> : ConfigurationBuilderBase whe
 
     internal TypeConfiguration Configuration { get; }
 
-    internal override bool ShouldIndentLines => true;
-
     internal override IConfigurationFormatter ConfigurationFormatter => Configuration;
+
+    public T Internal()
+    {
+        Configuration.Visibility = VisibilityModifier.Internal;
+        return (T)this;
+    }
 
     public T Public()
     {
@@ -27,9 +31,8 @@ public abstract class TypeConfigurationBuilder<T> : ConfigurationBuilderBase whe
         return (T)this;
     }
 
-    public T Internal()
+    public void AppendToContext(SyntaxContext context)
     {
-        Configuration.Visibility = VisibilityModifier.Internal;
-        return (T)this;
+        Configuration.AppendToContext(context);
     }
 }

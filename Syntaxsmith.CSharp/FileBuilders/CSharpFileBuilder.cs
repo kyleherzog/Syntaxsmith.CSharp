@@ -47,6 +47,6 @@ public abstract class CSharpFileBuilder<T> : CSharpCodeBuilder<T> where T : CSha
 
     public T Close()
     {
-        return BlockClose();
+        return CloseBlock();
     }
 }

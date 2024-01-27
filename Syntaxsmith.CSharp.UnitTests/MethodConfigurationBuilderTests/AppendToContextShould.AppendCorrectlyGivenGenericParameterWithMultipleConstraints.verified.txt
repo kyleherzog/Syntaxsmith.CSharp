@@ -1,0 +1,2 @@
+﻿void Test<T>()
+    where T : class, IInterface

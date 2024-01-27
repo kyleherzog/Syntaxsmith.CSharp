@@ -13,6 +13,8 @@ internal class XmlDocsConfiguration : IConfigurationFormatter
 
     public string? Returns { get; set; }
 
+    public bool ShouldIndentChildLines => false;
+
     public string? Summary { get; set; }
 
     public IList<string> ToLines()

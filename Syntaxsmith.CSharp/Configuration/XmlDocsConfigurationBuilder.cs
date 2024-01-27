@@ -1,4 +1,5 @@
-﻿using Syntaxsmith.CSharp.Interfaces;
+﻿using Syntaxsmith.CSharp.Extensions;
+using Syntaxsmith.CSharp.Interfaces;
 
 namespace Syntaxsmith.CSharp.Configuration;
 
@@ -8,9 +9,6 @@ public class XmlDocsConfigurationBuilder : ConfigurationBuilderBase
 
     internal override IConfigurationFormatter ConfigurationFormatter => Configuration;
 
-    internal override bool ShouldIndentLines => false;
-
-
     public XmlDocsConfigurationBuilder AddException(string type, string description)
     {
         Configuration.Exceptions.Add((type, description));
@@ -19,7 +17,7 @@ public class XmlDocsConfigurationBuilder : ConfigurationBuilderBase
 
     public XmlDocsConfigurationBuilder AddException(Type type, string description)
     {
-        return AddException(type.Name, description);
+        return AddException(type.FriendlyName(), description);
     }
 
     public XmlDocsConfigurationBuilder AddException<T>(string description)
@@ -50,5 +48,10 @@ public class XmlDocsConfigurationBuilder : ConfigurationBuilderBase
     {
         Configuration.Summary = description;
         return this;
+    }
+
+    public void AppendToContext(SyntaxContext context)
+    {
+        Configuration.AppendToContext(context);
     }
 }

@@ -50,9 +50,9 @@ public abstract class CSharpCodeBuilder<T> : SyntaxBuilder<CSharpCodeBuilder<T>>
         return (T)this;
     }
 
-    public T BlockClose()
+    public T CloseBlock()
     {
-        if (Context.LastOperationName == nameof(BlockClose))
+        if (Context.LastOperationName == nameof(CloseBlock))
         {
             Context.IsPendingLineClose = false;
         }
@@ -60,23 +60,38 @@ public abstract class CSharpCodeBuilder<T> : SyntaxBuilder<CSharpCodeBuilder<T>>
         AddLine("}");
         AddLine(string.Empty); // force line break
         Context.LineClose(); // queue line close for a blank line if not another block close next
-        Context.LastOperationName = nameof(BlockClose);
+        Context.LastOperationName = nameof(CloseBlock);
         return (T)this;
     }
 
-    public T BlockOpen()
+    public T CloseClass()
+    {
+        return CloseBlock();
+    }
+
+    public T CloseEnum()
+    {
+        return CloseBlock();
+    }
+
+    public T CloseStruct()
+    {
+        return CloseBlock();
+    }
+
+    public T InterfaceClose()
+    {
+        return CloseBlock();
+    }
+
+    public T OpenBlock()
     {
         AddLine("{");
         Context.IndentLevel++;
         return (T)this;
     }
 
-    public T ClassClose()
-    {
-        return BlockClose();
-    }
-
-    public T ClassOpen(string className, Action<ClassConfigurationBuilder>? configAction = null)
+    public T OpenClass(string className, Action<ClassConfigurationBuilder>? configAction = null)
     {
         var builder = new ClassConfigurationBuilder(className);
 
@@ -87,16 +102,10 @@ public abstract class CSharpCodeBuilder<T> : SyntaxBuilder<CSharpCodeBuilder<T>>
 
         builder.AppendToContext(Context);
 
-        BlockOpen();
-        return (T)this;
+        return OpenBlock();
     }
 
-    public T EnumClose()
-    {
-        return BlockClose();
-    }
-
-    public T EnumOpen(string enumName, Action<EnumConfigurationBuilder>? configAction = null)
+    public T OpenEnum(string enumName, Action<EnumConfigurationBuilder>? configAction = null)
     {
         var builder = new EnumConfigurationBuilder(enumName);
 
@@ -107,17 +116,10 @@ public abstract class CSharpCodeBuilder<T> : SyntaxBuilder<CSharpCodeBuilder<T>>
 
         builder.AppendToContext(Context);
 
-        BlockOpen();
-        return (T)this;
+        return OpenBlock();
     }
 
-    public T InterfaceClose()
-    {
-        BlockClose();
-        return (T)this;
-    }
-
-    public T InterfaceOpen(string interfaceName, Action<InterfaceConfigurationBuilder>? configAction = null)
+    public T OpenInterface(string interfaceName, Action<InterfaceConfigurationBuilder>? configAction = null)
     {
         var builder = new InterfaceConfigurationBuilder(interfaceName);
 
@@ -128,16 +130,31 @@ public abstract class CSharpCodeBuilder<T> : SyntaxBuilder<CSharpCodeBuilder<T>>
 
         builder.AppendToContext(Context);
 
-        BlockOpen();
+        return OpenBlock();
+    }
+
+    public T OpenMethod(string methodName, Action<MethodConfigurationBuilder>? configAction = null)
+    {
+        DeclareMethod(methodName, configAction);
+        OpenBlock();
         return (T)this;
     }
 
-    public T StructClose()
+    public T DeclareMethod(string methodName, Action<MethodConfigurationBuilder>? configAction = null)
     {
-        return BlockClose();
+        var builder = new MethodConfigurationBuilder(methodName);
+
+        if (configAction is not null)
+        {
+            configAction(builder);
+        }
+
+        builder.AppendToContext(Context);
+
+        return (T)this;
     }
 
-    public T StructOpen(string structName, Action<StructConfigurationBuilder>? configAction = null)
+    public T OpenStruct(string structName, Action<StructConfigurationBuilder>? configAction = null)
     {
         var builder = new StructConfigurationBuilder(structName);
 
@@ -148,7 +165,6 @@ public abstract class CSharpCodeBuilder<T> : SyntaxBuilder<CSharpCodeBuilder<T>>
 
         builder.AppendToContext(Context);
 
-        BlockOpen();
-        return (T)this;
+        return OpenBlock();
     }
 }

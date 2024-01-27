@@ -6,7 +6,7 @@ using Syntaxsmith.CSharp.Interfaces;
 
 namespace Syntaxsmith.CSharp.Configuration;
 
-internal class TypeConfiguration : IConfigurationFormatter
+internal class TypeConfiguration : IConfigurationFormatter, IKeywordModifiable
 {
     private const string validationPattern = @"^(?:[A-Z][a-zA-Z0-9]*)(?:<[A-Z][a-zA-Z0-9]*>)?$";
 
@@ -33,13 +33,15 @@ internal class TypeConfiguration : IConfigurationFormatter
         TypeKeyword = typeKeyword;
     }
 
-    public IDictionary<string, IEnumerable<string>> GenericParameters { get; } = new Dictionary<string, IEnumerable<string>>();
+    public Dictionary<string, IEnumerable<string>> GenericParameters { get; } = [];
 
     public string? Inherits { get; set; }
 
     public IEnumerable<string>? Interfaces { get; set; }
 
-    public TypeModifiers Modifiers { get; set; }
+    public KeywordModifiers Modifiers { get; set; }
+
+    public bool ShouldIndentChildLines => true;
 
     public string TypeKeyword { get; set; }
 
@@ -47,24 +49,12 @@ internal class TypeConfiguration : IConfigurationFormatter
 
     public VisibilityModifier? Visibility { get; set; }
 
-    public void ToggleModifier(TypeModifiers modifier, bool isOn)
-    {
-        if (isOn)
-        {
-            Modifiers |= modifier;
-        }
-        else
-        {
-            Modifiers &= ~modifier;
-        }
-    }
-
     public IList<string> ToLines()
     {
         var line = new StringBuilder();
 
-        line.AppendIf(Visibility is not null, Visibility.ToString().ToLowerInvariant(), " ");
-        line.Append(Modifiers.ToKeywords());
+        line.AppendIf(Visibility is not null, Visibility?.ToKeywords(), " ");
+        line.Append(Modifiers.ToCodeText());
 
         line.Append(TypeKeyword);
         line.Append(' ');

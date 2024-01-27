@@ -11,6 +11,6 @@ public class ClassFileBuilder : CSharpFileBuilder<ClassFileBuilder>
 
     public ClassFileBuilder Open(Action<ClassConfigurationBuilder>? configAction = null)
     {
-        return ClassOpen(TypeName, configAction);
+        return OpenClass(TypeName, configAction);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Syntaxsmith.CSharp.Enums;
+using Syntaxsmith.CSharp.Extensions;
 
 namespace Syntaxsmith.CSharp.Configuration;
 
@@ -18,17 +19,17 @@ public class InterfaceConfigurationBuilder : TypeConfigurationBuilder<InterfaceC
 
     public InterfaceConfigurationBuilder Inherits<T>()
     {
-        return Inherits(typeof(T).Name);
+        return Inherits(typeof(T).FriendlyName());
     }
 
     public InterfaceConfigurationBuilder Inherits(params Type[] interfaces)
     {
-        return Inherits(interfaces.Select(x => x.Name).ToArray());
+        return Inherits(interfaces.Select(x => x.FriendlyName()).ToArray());
     }
 
     public InterfaceConfigurationBuilder Partial(bool isOn = true)
     {
-        Configuration.ToggleModifier(TypeModifiers.Partial, isOn);
+        Configuration.ToggleModifier(KeywordModifiers.Partial, isOn);
         return this;
     }
 

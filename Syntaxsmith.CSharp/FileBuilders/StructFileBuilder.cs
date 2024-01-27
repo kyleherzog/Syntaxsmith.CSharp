@@ -11,6 +11,6 @@ public class StructFileBuilder : CSharpFileBuilder<StructFileBuilder>
 
     public StructFileBuilder Open(Action<StructConfigurationBuilder>? configAction = null)
     {
-        return StructOpen(TypeName, configAction);
+        return OpenStruct(TypeName, configAction);
     }
 }
