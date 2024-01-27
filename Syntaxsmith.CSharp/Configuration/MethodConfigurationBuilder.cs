@@ -8,6 +8,7 @@ public class MethodConfigurationBuilder
     public MethodConfigurationBuilder(string name)
     {
         Configuration = new MethodConfiguration(name);
+        GlobalConfiguration.Method?.Invoke(this);
     }
 
     internal MethodConfiguration Configuration { get; }
@@ -31,15 +32,20 @@ public class MethodConfigurationBuilder
         return AddParameter(typeof(T).FriendlyName(), name);
     }
 
-    public MethodConfigurationBuilder WithGenericParameter(string parameterName, params string[] constraints)
+    public void AppendToContext(SyntaxContext context)
     {
-        Configuration.GenericParameters[parameterName] = constraints;
-        return this;
+        Configuration.AppendToContext(context);
     }
 
     public MethodConfigurationBuilder Async(bool isOn = true)
     {
         Configuration.ToggleModifier(KeywordModifiers.Async, isOn);
+        return this;
+    }
+
+    public MethodConfigurationBuilder Extern(bool isOn = true)
+    {
+        Configuration.ToggleModifier(KeywordModifiers.Extern, isOn);
         return this;
     }
 
@@ -115,11 +121,6 @@ public class MethodConfigurationBuilder
         return this;
     }
 
-    public void AppendToContext(SyntaxContext context)
-    {
-        Configuration.AppendToContext(context);
-    }
-
     public MethodConfigurationBuilder Unsafe(bool isOn = true)
     {
         Configuration.ToggleModifier(KeywordModifiers.Unsafe, isOn);
@@ -129,6 +130,12 @@ public class MethodConfigurationBuilder
     public MethodConfigurationBuilder Virtual(bool isOn = true)
     {
         Configuration.ToggleModifier(KeywordModifiers.Virtual, isOn);
+        return this;
+    }
+
+    public MethodConfigurationBuilder WithGenericParameter(string parameterName, params string[] constraints)
+    {
+        Configuration.GenericParameters[parameterName] = constraints;
         return this;
     }
 }

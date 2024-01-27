@@ -6,13 +6,12 @@ namespace Syntaxsmith.CSharp.UnitTests.ConstConfigurationBuilderTests;
 public class AppendToContextShould
 {
     [TestMethod]
-    public void AppendCorrectlyGivenPublic()
+    public void AppendCorrectlyGivenCreate()
     {
-        var builder = new ConstConfigurationBuilder("String", "MyConst", "Value Here");
+        var builder = ConstConfigurationBuilder.Create<Boolean>("MyConst", true);
         var context = new SyntaxContext();
-        builder.Public()
-            .AppendToContext(context);
-        Assert.AreEqual("public const String MyConst = \"Value Here\";", context.ToString());
+        builder.AppendToContext(context);
+        Assert.AreEqual("const Boolean MyConst = true;", context.ToString());
     }
 
     [TestMethod]
@@ -36,11 +35,18 @@ public class AppendToContextShould
     }
 
     [TestMethod]
-    public void AppendCorrectlyGivenCreate()
+    public void AppendCorrectlyGivenPublic()
     {
-        var builder = ConstConfigurationBuilder.Create<Boolean>("MyConst", true);
+        var builder = new ConstConfigurationBuilder("String", "MyConst", "Value Here");
         var context = new SyntaxContext();
-        builder.AppendToContext(context);
-        Assert.AreEqual("const Boolean MyConst = true;", context.ToString());
+        builder.Public()
+            .AppendToContext(context);
+        Assert.AreEqual("public const String MyConst = \"Value Here\";", context.ToString());
+    }
+
+    [TestInitialize]
+    public void TestInitialize()
+    {
+        GlobalConfiguration.Reset();
     }
 }

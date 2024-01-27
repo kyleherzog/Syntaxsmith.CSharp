@@ -8,6 +8,7 @@ public class ConstConfigurationBuilder
     public ConstConfigurationBuilder(string type, string name, object? value)
     {
         Configuration = new ConstConfiguration(type, name, value);
+        GlobalConfiguration.Const?.Invoke(this);
     }
 
     internal ConstConfiguration Configuration { get; }

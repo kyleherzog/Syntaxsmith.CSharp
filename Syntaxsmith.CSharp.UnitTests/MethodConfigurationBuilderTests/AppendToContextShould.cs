@@ -199,4 +199,10 @@ public class AppendToContextShould : VerifyBase
             .AppendToContext(context);
         Assert.AreEqual("void Test<T>()", context.ToString());
     }
+
+    [TestInitialize]
+    public void TestInitialize()
+    {
+        GlobalConfiguration.Reset();
+    }
 }
