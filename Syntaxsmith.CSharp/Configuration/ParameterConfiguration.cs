@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using Syntaxsmith.CSharp.Enums;
+using Syntaxsmith.CSharp.Extensions;
 
 namespace Syntaxsmith.CSharp.Configuration;
 
@@ -7,6 +8,7 @@ internal class ParameterConfiguration
 {
     public ParameterConfiguration(string type, string name)
     {
+        name.ValidateAsObjectIdentifier();
         Name = name;
         Type = type;
     }

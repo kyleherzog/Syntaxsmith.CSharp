@@ -9,6 +9,7 @@ internal class MethodConfiguration : IConfigurationFormatter, IKeywordModifiable
 {
     public MethodConfiguration(string name)
     {
+        name.ValidateAsObjectIdentifier();
         Name = name;
     }
 

@@ -16,6 +16,14 @@ public abstract class CSharpCodeBuilder<T> : SyntaxBuilder<CSharpCodeBuilder<T>>
         return (T)this;
     }
 
+    public T AddConst(string type, string name, string value, Action<ConstConfigurationBuilder> configAction)
+    {
+        var builder = new ConstConfigurationBuilder(type, name, value);
+        configAction?.Invoke(builder);
+        builder.AppendToContext(Context);
+        return (T)this;
+    }
+
     public T AddDirective(PreprocessorDirective dirctive, string? text = null)
     {
         // start a new line if there is content

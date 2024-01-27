@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using System.Text.RegularExpressions;
 using Syntaxsmith.CSharp.Enums;
 using Syntaxsmith.CSharp.Extensions;
 using Syntaxsmith.CSharp.Interfaces;
@@ -8,25 +7,13 @@ namespace Syntaxsmith.CSharp.Configuration;
 
 internal class TypeConfiguration : IConfigurationFormatter, IKeywordModifiable
 {
-    private const string validationPattern = @"^(?:[A-Z][a-zA-Z0-9]*)(?:<[A-Z][a-zA-Z0-9]*>)?$";
-
     public TypeConfiguration(string typeName, string typeKeyword)
     {
-        if (typeName is null)
-        {
-            throw new ArgumentNullException(nameof(typeName));
-        }
+        typeName.ValidateAsObjectIdentifier();
 
         if (typeKeyword is null)
         {
             throw new ArgumentNullException(nameof(typeKeyword));
-        }
-
-        var isValidName = Regex.IsMatch(typeName, validationPattern);
-
-        if (!isValidName)
-        {
-            throw new ArgumentException($"The {typeKeyword} name '{typeName}' is invalid.", nameof(typeName));
         }
 
         TypeName = typeName;
