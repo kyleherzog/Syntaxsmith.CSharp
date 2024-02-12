@@ -20,6 +20,8 @@ internal class TypeConfiguration : IKeywordModifiable
         TypeKeyword = typeKeyword;
     }
 
+    public Action<CSharpCodeBuilder> Body { get; set; }
+
     public Dictionary<string, IEnumerable<string>> GenericParameters { get; } = [];
 
     public string? Inherits { get; set; }
@@ -64,12 +66,20 @@ internal class TypeConfiguration : IKeywordModifiable
             line.Append(string.Join(", ", implementations));
         }
 
-        context.AddLine(line.ToString());
+        var codeBuilder = new CSharpCodeBuilder(context);
+        codeBuilder.AddLine(line.ToString());
 
         var constrainedParameters = GenericParameters.Where(x => x.Value?.Any() ?? false);
         foreach (var constrainedParameter in constrainedParameters)
         {
-            context.AddChildLine($"where {constrainedParameter.Key} : {string.Join(", ", constrainedParameter.Value)}");
+            codeBuilder.AddChildLine($"where {constrainedParameter.Key} : {string.Join(", ", constrainedParameter.Value)}");
+        }
+
+        if (Body is not null)
+        {
+            codeBuilder.OpenBlock();
+            Body.Invoke(codeBuilder);
+            codeBuilder.CloseBlock();
         }
     }
 }

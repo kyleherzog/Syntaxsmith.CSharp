@@ -17,6 +17,12 @@ public class StructConfigurationBuilder : TypeConfigurationBuilder<StructConfigu
         return this;
     }
 
+    public StructConfigurationBuilder Body(Action<CSharpCodeBuilder> body)
+    {
+        Configuration.Body = body;
+        return this;
+    }
+
     public StructConfigurationBuilder Implements(params string[] interfaces)
     {
         Configuration.Interfaces = interfaces;

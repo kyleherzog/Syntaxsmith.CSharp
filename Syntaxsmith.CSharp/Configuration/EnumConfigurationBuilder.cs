@@ -11,6 +11,12 @@ public class EnumConfigurationBuilder : TypeConfigurationBuilder<EnumConfigurati
         GlobalConfiguration.Enum?.Invoke(this);
     }
 
+    public EnumConfigurationBuilder Body(Action<CSharpCodeBuilder> body)
+    {
+        Configuration.Body = body;
+        return this;
+    }
+
     public EnumConfigurationBuilder UnderlyingType<T>()
     {
         return UnderlyingType(typeof(T));

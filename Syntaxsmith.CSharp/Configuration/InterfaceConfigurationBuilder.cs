@@ -11,6 +11,12 @@ public class InterfaceConfigurationBuilder : TypeConfigurationBuilder<InterfaceC
         GlobalConfiguration.Interface?.Invoke(this);
     }
 
+    public InterfaceConfigurationBuilder Body (Action<CSharpCodeBuilder> body)
+    {
+        Configuration.Body = body;
+        return this;
+    }
+
     public InterfaceConfigurationBuilder Inherits(params string[] interfaces)
     {
         Configuration.Interfaces = interfaces;
