@@ -29,6 +29,21 @@ public class AppendToContextShould : VerifyBase
     }
 
     [TestMethod]
+    public Task AppendCorrectlyGivenBody()
+    {
+        var builder = new MethodConfigurationBuilder("Test");
+        var context = new SyntaxContext();
+        builder.Public()
+            .Body(b =>
+            {
+                b.AddLine("var x = 133;");
+                b.AddLine("return x;");
+            })
+            .AppendToContext(context);
+        return Verify(context.ToString());
+    }
+
+    [TestMethod]
     public void AppendCorrectlyGivenComplexStaticConfiguration()
     {
         var builder = new MethodConfigurationBuilder("Test");

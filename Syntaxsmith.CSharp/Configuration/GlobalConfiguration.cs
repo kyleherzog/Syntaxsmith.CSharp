@@ -16,6 +16,8 @@ public static class GlobalConfiguration
 
     public static Action<InterfaceConfigurationBuilder>? Interface { get; set; }
 
+    public static Action<PropertyConfigurationBuilder>? Property { get; set; }
+
     public static Action<StructConfigurationBuilder>? Struct { get; set; }
 
     public static void Reset()

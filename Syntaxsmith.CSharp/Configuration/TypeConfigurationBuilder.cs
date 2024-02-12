@@ -1,9 +1,9 @@
 ﻿using Syntaxsmith.CSharp.Enums;
-using Syntaxsmith.CSharp.Interfaces;
 
 namespace Syntaxsmith.CSharp.Configuration;
 
-public abstract class TypeConfigurationBuilder<T> : ConfigurationBuilderBase where T : TypeConfigurationBuilder<T>
+public abstract class TypeConfigurationBuilder<T>
+    where T : TypeConfigurationBuilder<T>
 {
     protected TypeConfigurationBuilder(string typeName, string typeKeyword)
     {
@@ -16,8 +16,6 @@ public abstract class TypeConfigurationBuilder<T> : ConfigurationBuilderBase whe
     }
 
     internal TypeConfiguration Configuration { get; }
-
-    internal override IConfigurationFormatter ConfigurationFormatter => Configuration;
 
     public T Internal()
     {
@@ -33,6 +31,11 @@ public abstract class TypeConfigurationBuilder<T> : ConfigurationBuilderBase whe
 
     public void AppendToContext(SyntaxContext context)
     {
+        if (context is null)
+        {
+            throw new ArgumentNullException(nameof(context));
+        }
+
         Configuration.AppendToContext(context);
     }
 }

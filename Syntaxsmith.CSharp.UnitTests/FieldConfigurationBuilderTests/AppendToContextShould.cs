@@ -26,6 +26,36 @@ public class AppendToContextShould
     }
 
     [TestMethod]
+    public void AppendCorrectlyGivenInitializeStringTo()
+    {
+        var builder = new FieldConfigurationBuilder("string", "myFieldName");
+        var context = new SyntaxContext();
+        builder.InitializeStringTo("Hello, World!")
+            .AppendToContext(context);
+        Assert.AreEqual("private string myFieldName = \"Hello, World!\";", context.ToString());
+    }
+
+    [TestMethod]
+    public void AppendCorrectlyGivenInitializeTo()
+    {
+        var builder = new FieldConfigurationBuilder("Int32", "myFieldName");
+        var context = new SyntaxContext();
+        builder.InitializeTo("133")
+            .AppendToContext(context);
+        Assert.AreEqual("private Int32 myFieldName = 133;", context.ToString());
+    }
+
+    [TestMethod]
+    public void AppendCorrectlyGivenInitializeToWithSemicolon()
+    {
+        var builder = new FieldConfigurationBuilder("Int32", "myFieldName");
+        var context = new SyntaxContext();
+        builder.InitializeTo("133;")
+            .AppendToContext(context);
+        Assert.AreEqual("private Int32 myFieldName = 133;", context.ToString());
+    }
+
+    [TestMethod]
     public void AppendCorrectlyGivenInternal()
     {
         var builder = new FieldConfigurationBuilder("MyClass", "myFieldName");

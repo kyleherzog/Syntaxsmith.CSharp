@@ -1,9 +1,8 @@
 ﻿using System.Text;
-using Syntaxsmith.CSharp.Interfaces;
 
 namespace Syntaxsmith.CSharp.Configuration;
 
-internal class XmlDocsConfiguration : IConfigurationFormatter
+internal class XmlDocsConfiguration
 {
     public IList<(string Type, string Description)> Exceptions { get; } = [];
 
@@ -13,36 +12,30 @@ internal class XmlDocsConfiguration : IConfigurationFormatter
 
     public string? Returns { get; set; }
 
-    public bool ShouldIndentChildLines => false;
-
     public string? Summary { get; set; }
 
-    public IList<string> ToLines()
+    public void AppendToContext(SyntaxContext context)
     {
-        var results = new List<string>();
-
         if (IsInherit)
         {
-            results.Add(DocLine("<inheritdoc/>"));
-            return results;
+            context.AddLine(DocLine("<inheritdoc/>"));
+            return;
         }
 
-        AddTag(results, Summary, "summary");
+        AddTag(context, Summary, "summary");
         foreach (var parameter in Parameters)
         {
-            AddTag(results, parameter.Description, "param", ("name", parameter.Name));
+            AddTag(context, parameter.Description, "param", ("name", parameter.Name));
         }
-        AddTag(results, Returns, "returns");
+        AddTag(context, Returns, "returns");
 
         foreach (var exception in Exceptions)
         {
-            AddTag(results, exception.Description, "exception", ("cref", exception.Type));
+            AddTag(context, exception.Description, "exception", ("cref", exception.Type));
         }
-
-        return results;
     }
 
-    private static void AddTag(IList<string> lines, string? value, string tag, params (string Key, string Value)[] parameters)
+    private static void AddTag(SyntaxContext context, string? value, string tag, params (string Key, string Value)[] parameters)
     {
         if (string.IsNullOrWhiteSpace(value))
         {
@@ -60,9 +53,9 @@ internal class XmlDocsConfiguration : IConfigurationFormatter
         }
         openTagBuilder.Append('>');
 
-        lines.Add(openTagBuilder.ToString());
-        lines.Add(DocLine(value!));
-        lines.Add(DocLine($"</{tag}>"));
+        context.AddLine(openTagBuilder.ToString());
+        context.AddLine(DocLine(value!));
+        context.AddLine(DocLine($"</{tag}>"));
     }
 
     private static string DocLine(string line)

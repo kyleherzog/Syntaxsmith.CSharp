@@ -1,13 +1,10 @@
 ﻿using Syntaxsmith.CSharp.Extensions;
-using Syntaxsmith.CSharp.Interfaces;
 
 namespace Syntaxsmith.CSharp.Configuration;
 
-public class XmlDocsConfigurationBuilder : ConfigurationBuilderBase
+public class XmlDocsConfigurationBuilder
 {
     internal XmlDocsConfiguration Configuration { get; } = new();
-
-    internal override IConfigurationFormatter ConfigurationFormatter => Configuration;
 
     public XmlDocsConfigurationBuilder AddException(string type, string description)
     {

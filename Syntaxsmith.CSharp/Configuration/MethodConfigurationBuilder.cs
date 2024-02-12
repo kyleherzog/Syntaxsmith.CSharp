@@ -43,6 +43,12 @@ public class MethodConfigurationBuilder
         return this;
     }
 
+    public MethodConfigurationBuilder Body(Action<CSharpCodeBuilder> body)
+    {
+        Configuration.Body = body;
+        return this;
+    }
+
     public MethodConfigurationBuilder Extern(bool isOn = true)
     {
         Configuration.ToggleModifier(KeywordModifiers.Extern, isOn);

@@ -1,0 +1,12 @@
+﻿string MyPropertyName
+{
+    get
+    {
+        return myPropertyName;
+    }
+
+    set
+    {
+        myPropertyName = value;
+    }
+}

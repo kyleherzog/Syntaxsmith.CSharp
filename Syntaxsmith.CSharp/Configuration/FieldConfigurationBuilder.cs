@@ -24,6 +24,18 @@ public class FieldConfigurationBuilder
         context.AddLine(Configuration.ToString());
     }
 
+    public FieldConfigurationBuilder InitializeStringTo(string value)
+    {
+        Configuration.Initializer = $"\"{value}\"";
+        return this;
+    }
+
+    public FieldConfigurationBuilder InitializeTo(string initializer)
+    {
+        Configuration.Initializer = initializer;
+        return this;
+    }
+
     public FieldConfigurationBuilder Internal()
     {
         Configuration.Visibility = VisibilityModifier.Internal;
@@ -75,12 +87,6 @@ public class FieldConfigurationBuilder
     public FieldConfigurationBuilder Volatile(bool isOn = true)
     {
         Configuration.ToggleModifier(KeywordModifiers.Volatile, isOn);
-        return this;
-    }
-
-    public FieldConfigurationBuilder WithInitializer(string initializer)
-    {
-        Configuration.Initializer = initializer;
         return this;
     }
 }

@@ -5,7 +5,7 @@ using Syntaxsmith.CSharp.Interfaces;
 
 namespace Syntaxsmith.CSharp.Configuration;
 
-internal class TypeConfiguration : IConfigurationFormatter, IKeywordModifiable
+internal class TypeConfiguration : IKeywordModifiable
 {
     public TypeConfiguration(string typeName, string typeKeyword)
     {
@@ -28,15 +28,13 @@ internal class TypeConfiguration : IConfigurationFormatter, IKeywordModifiable
 
     public KeywordModifiers Modifiers { get; set; }
 
-    public bool ShouldIndentChildLines => true;
-
     public string TypeKeyword { get; set; }
 
     public string TypeName { get; set; }
 
     public VisibilityModifier? Visibility { get; set; }
 
-    public IList<string> ToLines()
+    public void AppendToContext(SyntaxContext context)
     {
         var line = new StringBuilder();
 
@@ -66,17 +64,12 @@ internal class TypeConfiguration : IConfigurationFormatter, IKeywordModifiable
             line.Append(string.Join(", ", implementations));
         }
 
-        var result = new List<string>
-        {
-            line.ToString()
-        };
+        context.AddLine(line.ToString());
 
         var constrainedParameters = GenericParameters.Where(x => x.Value?.Any() ?? false);
         foreach (var constrainedParameter in constrainedParameters)
         {
-            result.Add($"where {constrainedParameter.Key} : {string.Join(", ", constrainedParameter.Value)}");
+            context.AddChildLine($"where {constrainedParameter.Key} : {string.Join(", ", constrainedParameter.Value)}");
         }
-
-        return result;
     }
 }

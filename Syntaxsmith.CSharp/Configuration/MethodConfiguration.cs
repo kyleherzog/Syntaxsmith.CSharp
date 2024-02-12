@@ -5,7 +5,7 @@ using Syntaxsmith.CSharp.Interfaces;
 
 namespace Syntaxsmith.CSharp.Configuration;
 
-internal class MethodConfiguration : IConfigurationFormatter, IKeywordModifiable
+internal class MethodConfiguration : IKeywordModifiable
 {
     public MethodConfiguration(string name)
     {
@@ -23,13 +23,15 @@ internal class MethodConfiguration : IConfigurationFormatter, IKeywordModifiable
 
     public string? ReturnType { get; set; }
 
-    public bool ShouldIndentChildLines => true;
-
     public VisibilityModifier? Visibility { get; set; }
 
-    public IList<string> ToLines()
+    public Action<CSharpCodeBuilder>? Body { get; set; }
+
+    public void AppendToContext(SyntaxContext context)
     {
         var line = new StringBuilder();
+
+        var codeBuilder = new CSharpCodeBuilder(context);
 
         line.AppendIf(Visibility is not null, Visibility?.ToKeywords(), " ");
         line.Append(Modifiers.ToCodeText());
@@ -54,19 +56,17 @@ internal class MethodConfiguration : IConfigurationFormatter, IKeywordModifiable
 
         line.Append(')');
 
-        var result = new List<string>();
-
         var isSelfClosing = Modifiers.HasFlag(KeywordModifiers.Abstract);
 
         var constrainedParameters = GenericParameters.Where(x => x.Value?.Any() ?? false).ToList();
         if (constrainedParameters.Count > 0)
         {
-            result.Add(line.ToString());
+            codeBuilder.AddLine(line.ToString());
 
             for (var i = 0; i < constrainedParameters.Count; i++)
             {
                 var constrainedParameter = constrainedParameters[i];
-                result.Add($"where {constrainedParameter.Key} : {string.Join(", ", constrainedParameter.Value)}{(isSelfClosing && i == constrainedParameters.Count - 1 ? ";" : string.Empty)}");
+                codeBuilder.AddChildLine($"where {constrainedParameter.Key} : {string.Join(", ", constrainedParameter.Value)}{(isSelfClosing && i == constrainedParameters.Count - 1 ? ";" : string.Empty)}");
             }
         }
         else
@@ -75,9 +75,15 @@ internal class MethodConfiguration : IConfigurationFormatter, IKeywordModifiable
             {
                 line.Append(';');
             }
-            result.Add(line.ToString());
+
+            context.AddLine(line.ToString());
         }
 
-        return result;
+        if (Body is not null)
+        {
+            codeBuilder.OpenBlock();
+            Body.Invoke(codeBuilder);
+            codeBuilder.CloseBlock();
+        }
     }
 }
